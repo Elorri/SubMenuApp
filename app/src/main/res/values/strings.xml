@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SubMenuApp</string>
+    <string name="share">share</string>
+    <string name="imported">import</string>
+</resources>
