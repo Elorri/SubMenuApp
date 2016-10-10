@@ -4,40 +4,34 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ContentFrameLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 public class MainActivity extends AppCompatActivity {
 
 
-    private LinearLayout mView;
-    private View fragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mView = (LinearLayout) findViewById(R.id.main_content);
     }
 
 
     public void openPopupFragment(View view) {
-        PopupWindow pw = openPopupWindow(view, null, null);
-        FrameLayout popupWindowRootView = new FrameLayout(getApplicationContext());
+        PopupWindow pw = createPopupWindow();
+        FrameLayout popupWindowRootView = new FrameLayout(getApplicationContext()); //Found out I need this otherwise later fragment_container id is not found
         pw.setContentView(popupWindowRootView);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " + pw.getContentView());
-        popupWindowRootView.addView(createView(popupWindowRootView));
-        showPopup(pw, view, null, null);
+        attachFragmentToView(popupWindowRootView);
+        Rect viewLocation = locateView(view);
+        pw.showAtLocation(view, Gravity.NO_GRAVITY, viewLocation.left, viewLocation.top);
     }
 
-    private PopupWindow openPopupWindow(final View view, Integer x, Integer y) {
+    private PopupWindow createPopupWindow() {
         final PopupWindow pw = new PopupWindow();
         pw.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         pw.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -48,28 +42,12 @@ public class MainActivity extends AppCompatActivity {
         return pw;
     }
 
-    private View createView(View popupRootView) {
-        fragmentContainer = View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) mView); //add fragment to main activity root
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " +fragmentContainer);
-        ((ContentFrameLayout)fragmentContainer.getParent()).removeView(fragmentContainer);
+    private void attachFragmentToView(View popupRootView) {
+        View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) popupRootView); //add fragment to main activity root
         PopupFragment popupFragment = new PopupFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, popupFragment).commit();
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " + popupFragment.getPopupView());
-        return fragmentContainer;
     }
 
-
-    private void showPopup(PopupWindow pw, View view, Integer x, Integer y) {
-        if (x == null && y == null) {
-            //Show the popup over the anchor
-            Rect viewLocation = locateView(view);
-            pw.showAtLocation(view, Gravity.NO_GRAVITY, viewLocation.left, viewLocation.top);
-        } else {
-            //Show the popup where the screen touch happened
-            pw.showAtLocation(view, Gravity.NO_GRAVITY, x, y);
-        }
-
-    }
 
     public static Rect locateView(View v) {
         int[] loc_int = new int[2];
@@ -88,10 +66,6 @@ public class MainActivity extends AppCompatActivity {
         return location;
     }
 
-    public void openFragment(View view) {
-        PopupFragment popupFragment = new PopupFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, popupFragment).commit();
-    }
 
 
 }

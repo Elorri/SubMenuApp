@@ -17,14 +17,4 @@
         android:text="OpenPopup"
         android:onClick="openPopupFragment"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OpenFragment"
-        android:onClick="openFragment"/>
-    <FrameLayout
-        android:id="@+id/main_activity_fragment_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
 </LinearLayout>
