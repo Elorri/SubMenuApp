@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openPopupFragment(View view) {
         PopupWindow pw = createPopupWindow();
-        FrameLayout popupWindowRootView = new FrameLayout(getApplicationContext()); //Found out I need this otherwise later fragment_container id is not found
+        FrameLayout popupWindowRootView = new FrameLayout(getApplicationContext()); 
         pw.setContentView(popupWindowRootView);
         attachFragmentToView(popupWindowRootView);
         Rect viewLocation = locateView(view);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attachFragmentToView(View popupRootView) {
-        View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) popupRootView); //add fragment to main activity root
+        View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) popupRootView); 
         PopupFragment popupFragment = new PopupFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, popupFragment).commit();
     }
