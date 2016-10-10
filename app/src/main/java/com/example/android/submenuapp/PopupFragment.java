@@ -15,7 +15,7 @@ public class PopupFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_layout, container);
+        view=inflater.inflate(R.layout.fragment_layout, null);
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+view);
         return view;
     }

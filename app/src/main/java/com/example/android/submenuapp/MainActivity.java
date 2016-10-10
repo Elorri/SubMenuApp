@@ -4,31 +4,35 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ContentFrameLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 public class MainActivity extends AppCompatActivity {
 
 
+    private LinearLayout mView;
+    private View fragmentContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mView = (LinearLayout) findViewById(R.id.main_content);
     }
 
 
-
-    public void openPopup(View view) {
-        PopupWindow pw=openPopupWindow(view, null, null);
-        FrameLayout popupWindowRootView=new FrameLayout(getApplicationContext());
+    public void openPopupFragment(View view) {
+        PopupWindow pw = openPopupWindow(view, null, null);
+        FrameLayout popupWindowRootView = new FrameLayout(getApplicationContext());
         pw.setContentView(popupWindowRootView);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+pw.getContentView());
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " + pw.getContentView());
         popupWindowRootView.addView(createView(popupWindowRootView));
         showPopup(pw, view, null, null);
     }
@@ -45,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private View createView(View popupRootView) {
-        View fragmentContainer=View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) popupRootView);
+        fragmentContainer = View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) mView); //add fragment to main activity root
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " +fragmentContainer);
+        ((ContentFrameLayout)fragmentContainer.getParent()).removeView(fragmentContainer);
         PopupFragment popupFragment = new PopupFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, popupFragment).commit();
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+popupFragment.getPopupView());
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " + popupFragment.getPopupView());
         return fragmentContainer;
     }
-
 
 
     private void showPopup(PopupWindow pw, View view, Integer x, Integer y) {
@@ -82,4 +87,11 @@ public class MainActivity extends AppCompatActivity {
         location.bottom = location.top + v.getHeight();
         return location;
     }
+
+    public void openFragment(View view) {
+        PopupFragment popupFragment = new PopupFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, popupFragment).commit();
+    }
+
+
 }
