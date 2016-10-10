@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,12 +42,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private View createView() {
-        View fragmentContainer=new FrameLayout();
-        fragmentContainer.setId();
+        View fragmentContainer=View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper,null);
         PopupFragment popupFragment = new PopupFragment();
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+popupFragment.getView());
-        getFragmentManager().beginTransaction().replace(R.)
-        return popupFragment.getView();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, popupFragment).commit();
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+popupFragment.getPopupView());
+        return fragmentContainer;
     }
 
     public void openPopup(View view) {

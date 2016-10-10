@@ -10,12 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class PopupFragment extends Fragment {
+    private View view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_layout, container);
+        view=inflater.inflate(R.layout.fragment_layout, container);
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+view);
         return view;
     }
 
+    public View getPopupView() {
+        return view;
+    }
 }
