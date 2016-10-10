@@ -4,9 +4,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
 
-    private void openAddBlockPopupWindow(final View view, Integer x, Integer y)
-    {
+    private void openPopupWindow(final View view, Integer x, Integer y) {
 
         final PopupWindow pw = new PopupWindow();
         pw.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -30,26 +32,27 @@ public class MainActivity extends AppCompatActivity {
         pw.setOutsideTouchable(true);
         pw.setFocusable(true);
         pw.setBackgroundDrawable(new BitmapDrawable());
-        if (x == null && y == null)
-        {
+        if (x == null && y == null) {
             //Show the popup over the anchor
             Rect viewLocation = locateView(view);
-            pw.showAtLocation(view, Gravity.NO_GRAVITY, viewLocation.left , viewLocation.top );
-        }
-        else
-        {
+            pw.showAtLocation(view, Gravity.NO_GRAVITY, viewLocation.left, viewLocation.top);
+        } else {
             //Show the popup where the screen touch happened
-            pw.showAtLocation(view, Gravity.NO_GRAVITY, x , y );
+            pw.showAtLocation(view, Gravity.NO_GRAVITY, x, y);
         }
     }
 
     private View createView() {
-
-        return View.inflate(getApplicationContext(), R.layout.fragment_layout, null);
+        View fragmentContainer=new FrameLayout();
+        fragmentContainer.setId();
+        PopupFragment popupFragment = new PopupFragment();
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+popupFragment.getView());
+        getFragmentManager().beginTransaction().replace(R.)
+        return popupFragment.getView();
     }
 
     public void openPopup(View view) {
-        openAddBlockPopupWindow(view, null, null);
+        openPopupWindow(view, null, null);
     }
 
     public static Rect locateView(View v) {
