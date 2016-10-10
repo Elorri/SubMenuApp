@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,16 +23,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void openPopupWindow(final View view, Integer x, Integer y) {
 
+    public void openPopup(View view) {
+        PopupWindow pw=openPopupWindow(view, null, null);
+        FrameLayout popupWindowRootView=new FrameLayout(getApplicationContext());
+        pw.setContentView(popupWindowRootView);
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+pw.getContentView());
+        popupWindowRootView.addView(createView(popupWindowRootView));
+        showPopup(pw, view, null, null);
+    }
+
+    private PopupWindow openPopupWindow(final View view, Integer x, Integer y) {
         final PopupWindow pw = new PopupWindow();
         pw.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         pw.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        pw.setContentView(createView());
         // Next 3 lines closes the popup window when touch outside of it (= when looses focus)
         pw.setOutsideTouchable(true);
         pw.setFocusable(true);
         pw.setBackgroundDrawable(new BitmapDrawable());
+        return pw;
+    }
+
+    private View createView(View popupRootView) {
+        View fragmentContainer=View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper, (ViewGroup) popupRootView);
+        PopupFragment popupFragment = new PopupFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, popupFragment).commit();
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+popupFragment.getPopupView());
+        return fragmentContainer;
+    }
+
+
+
+    private void showPopup(PopupWindow pw, View view, Integer x, Integer y) {
         if (x == null && y == null) {
             //Show the popup over the anchor
             Rect viewLocation = locateView(view);
@@ -39,18 +63,7 @@ public class MainActivity extends AppCompatActivity {
             //Show the popup where the screen touch happened
             pw.showAtLocation(view, Gravity.NO_GRAVITY, x, y);
         }
-    }
 
-    private View createView() {
-        View fragmentContainer=View.inflate(getApplicationContext(), R.layout.fragment_layout_wrapper,null);
-        PopupFragment popupFragment = new PopupFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, popupFragment).commit();
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+popupFragment.getPopupView());
-        return fragmentContainer;
-    }
-
-    public void openPopup(View view) {
-        openPopupWindow(view, null, null);
     }
 
     public static Rect locateView(View v) {
