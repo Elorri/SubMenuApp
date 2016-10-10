@@ -12,9 +12,9 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/openPopup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OpenPopup"
-        android:onClick="openPopupFragment"/>
+        android:text="OpenPopup" />
 
 </LinearLayout>
