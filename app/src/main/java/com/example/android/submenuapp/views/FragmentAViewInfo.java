@@ -35,7 +35,7 @@ public class FragmentAViewInfo implements AppWindowViewInfo {
         PopupFragmentA popupFragmentA = (PopupFragmentA) fragmentManager.findFragmentById(R.id.fragment_a_id);
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "popupFragmentA "+popupFragmentA);
         //fragmentManager.beginTransaction().remove(popupFragmentA).commit();
-        popupFragmentA.onDestroy();
+        //popupFragmentA.onDestroy();
         //fragmentManager.beginTransaction().hide(popupFragmentA);
         //popupFragmentA.setCallback(this);
     }

@@ -75,7 +75,7 @@ public class AppWindowManager {
             currentViewInfoInstance.clear();
         }
 
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "inflate");
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "inflate "+contentViewInfoInstance);
         currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
         currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
         contentViewInfoInstance.setView(currentView);

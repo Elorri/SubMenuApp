@@ -16,7 +16,7 @@ public class FragmentBViewInfo implements AppWindowViewInfo {
 
     @Override
     public int getViewLayout() {
-        return  R.layout.fragment_a_wrapper;
+        return  R.layout.fragment_b_wrapper;
     }
 
     @Override
