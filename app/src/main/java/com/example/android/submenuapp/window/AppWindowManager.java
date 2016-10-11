@@ -13,6 +13,9 @@ import android.widget.PopupWindow;
 import com.example.android.submenuapp.DialogUtils;
 import com.example.android.submenuapp.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AppWindowManager {
 
     private final Context mContext;
@@ -21,7 +24,14 @@ public class AppWindowManager {
     private PopupWindow pw;
 
     private AppWindowViewInfo currentViewInfoInstance;
-    View currentView;
+
+    // Because contentView that contains fragments won't be cleared up completely (we tried several
+    // things like adding fragment dynamically and use fm.remove but with no luck, fragment
+    // instance stay alive and we get a duplicate fragment crash) we will keep record of all
+    // instantiated contentView and reuse them as needed.
+    Map<String, View> contentViews = new HashMap<>();
+
+    
 
 
     public AppWindowManager(Context context) {
@@ -44,19 +54,16 @@ public class AppWindowManager {
             e.printStackTrace();
         }
 
+        View currentView = contentViews.get(contentViewName);
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
+                + "contentViews.get(contentViewName) " + contentViews.get(contentViewName));
         if (currentView == null) {
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "currentView " + currentView);
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "contentViewName " + contentViewName);
-            inflate(contentViewInfoInstance, fragmentManager);
-        } else if (currentView.getTag(R.id.window_id) == null) {
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "currentView " + currentView);
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "currentView.getTag() " + currentView.getTag(R.id.window_id));
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "contentViewName " + contentViewName);
-            inflate(contentViewInfoInstance, fragmentManager);
-        } else if (!contentViewName.equals(currentView.getTag(R.id.window_id))) {
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "currentView.getTag() " + currentView.getTag(R.id.window_id));
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "contentViewName " + contentViewName);
-            inflate(contentViewInfoInstance, fragmentManager);
+            currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
+            currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
+            contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
+            currentViewInfoInstance = contentViewInfoInstance;
+            Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
+                    + "currentView " + currentView + "set tag " + contentViewInfoInstance.getClass().getName());
         }
 
         pw = new PopupWindow();
@@ -68,20 +75,5 @@ public class AppWindowManager {
         pw.setBackgroundDrawable(new BitmapDrawable());
         Rect anchorLocation = DialogUtils.locateView(anchor);
         pw.showAtLocation(anchor, Gravity.NO_GRAVITY, anchorLocation.right, anchorLocation.top);
-    }
-
-    private void inflate(AppWindowViewInfo contentViewInfoInstance, FragmentManager fragmentManager) {
-        if (currentViewInfoInstance != null) {
-            currentViewInfoInstance.clear();
-        }
-
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "inflate "+contentViewInfoInstance);
-        currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
-        currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
-        contentViewInfoInstance.setView(currentView);
-        contentViewInfoInstance.setFragmentManager(fragmentManager);
-        currentViewInfoInstance = contentViewInfoInstance;
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "currentView " + currentView + "set tag " + contentViewInfoInstance.getClass().getName());
-
     }
 }

@@ -1,7 +1,6 @@
 package com.example.android.submenuapp.views;
 
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 
 import com.example.android.submenuapp.R;
@@ -32,8 +31,8 @@ public class FragmentAViewInfo implements AppWindowViewInfo {
 
     @Override
     public void clear() {
-        PopupFragmentA popupFragmentA = (PopupFragmentA) fragmentManager.findFragmentById(R.id.fragment_a_id);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "popupFragmentA "+popupFragmentA);
+//        PopupFragmentA popupFragmentA = (PopupFragmentA) fragmentManager.findFragmentById(R.id.fragment_a_id);
+//        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "popupFragmentA "+popupFragmentA);
         //fragmentManager.beginTransaction().remove(popupFragmentA).commit();
         //popupFragmentA.onDestroy();
         //fragmentManager.beginTransaction().hide(popupFragmentA);
