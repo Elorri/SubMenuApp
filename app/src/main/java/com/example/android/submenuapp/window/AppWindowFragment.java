@@ -1,4 +1,4 @@
-package com.example.android.submenuapp;
+package com.example.android.submenuapp.window;
 
 
 import android.support.v4.app.Fragment;

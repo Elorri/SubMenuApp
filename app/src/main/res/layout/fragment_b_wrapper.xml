@@ -4,10 +4,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <fragment
-        android:id="@+id/fragment_id"
+        android:id="@+id/fragment_b_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.example.android.submenuapp.PopupFragmentA"
-        tools:layout="@layout/fragment_layout" />
+        android:name="com.example.android.submenuapp.views.PopupFragmentB"
+        tools:layout="@layout/fragment_b" />
 
 </LinearLayout>

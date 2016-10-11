@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.submenuapp.views.FragmentAViewInfo;
+import com.example.android.submenuapp.views.FragmentBViewInfo;
+import com.example.android.submenuapp.window.AppWindowManager;
+
 /**
  * Created by nebo-android2016 on 10/10/16.
  */
@@ -25,10 +29,16 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment_layout, null);
-        view.findViewById(R.id.openPopup).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.openPopupA).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWindowManager.openLayout(view, new FragmentAView(getContext()), getFragmentManager());
+                mWindowManager.openLayout(view, FragmentAViewInfo.class.getName(), getFragmentManager());
+            }
+        });
+        view.findViewById(R.id.openPopupB).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWindowManager.openLayout(view, FragmentBViewInfo.class.getName(), getFragmentManager());
             }
         });
         return view;

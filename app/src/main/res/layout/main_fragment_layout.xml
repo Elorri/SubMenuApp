@@ -12,9 +12,15 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/openPopup"
+        android:id="@+id/openPopupA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OpenPopup" />
+        android:text="OpenPopupA" />
+
+    <Button
+        android:id="@+id/openPopupB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OpenPopupB" />
 
 </LinearLayout>

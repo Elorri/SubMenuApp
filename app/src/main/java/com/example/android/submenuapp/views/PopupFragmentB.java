@@ -1,5 +1,4 @@
-package com.example.android.submenuapp;
-
+package com.example.android.submenuapp.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,18 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PopupFragmentA extends Fragment {
+import com.example.android.submenuapp.R;
+
+/**
+ * Created by nebo-android2016 on 11/10/16.
+ */
+public class PopupFragmentB extends Fragment {
     private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_layout, null);
+        view=inflater.inflate(R.layout.fragment_b, null);
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+view);
         return view;
     }
 
-    public View getPopupView() {
-        return view;
-    }
 }
