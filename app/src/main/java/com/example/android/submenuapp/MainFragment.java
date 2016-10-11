@@ -18,11 +18,13 @@ public class MainFragment extends Fragment {
 
 
     private AppWindowManager mWindowManager;
+    private Bundle savedInstanceState;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mWindowManager = new AppWindowManager(getContext());
+        this.savedInstanceState = savedInstanceState;
     }
 
     @Nullable
@@ -32,20 +34,26 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.openPopupA).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWindowManager.openLayout(view, FragmentAViewInfo.class.getName(), getFragmentManager());
+                mWindowManager.openLayout(view, FragmentAViewInfo.class.getName());
             }
         });
         view.findViewById(R.id.openPopupB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWindowManager.openLayout(view, FragmentBViewInfo.class.getName(), getFragmentManager());
+                mWindowManager.openLayout(view, FragmentBViewInfo.class.getName());
             }
         });
         return view;
     }
 
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mWindowManager.onSaveInstanceState(outState);
+    }
 
-
-
+    public void onAttachedToWindow() {
+        mWindowManager.onRestaureInstanceState(savedInstanceState);
+    }
 }

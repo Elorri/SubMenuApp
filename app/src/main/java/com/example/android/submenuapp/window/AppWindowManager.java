@@ -3,7 +3,7 @@ package com.example.android.submenuapp.window;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +23,7 @@ public class AppWindowManager {
 
     private PopupWindow pw;
 
-    private AppWindowViewInfo currentViewInfoInstance;
+    private String currentLayoutName;
 
     // Because contentView that contains fragments won't be cleared up completely (we tried several
     // things like adding fragment dynamically and use fm.remove but with no luck, fragment
@@ -31,18 +31,16 @@ public class AppWindowManager {
     // instantiated contentView and reuse them as needed.
     Map<String, View> contentViews = new HashMap<>();
 
-    
-
 
     public AppWindowManager(Context context) {
         this.mContext = context;
     }
 
-    public void openLayout(View anchor, String popupLayoutName, FragmentManager fragmentManager) {
-        openPopupFragment(anchor, popupLayoutName, fragmentManager);
+    public void openLayout(View anchor, String popupLayoutName) {
+        openPopupFragment(anchor, popupLayoutName);
     }
 
-    public void openPopupFragment(View anchor, String contentViewName, FragmentManager fragmentManager) {
+    public void openPopupFragment(View anchor, String contentViewName) {
         AppWindowViewInfo contentViewInfoInstance = null;
         try {
             contentViewInfoInstance = (AppWindowViewInfo) Class.forName(contentViewName).newInstance();
@@ -61,7 +59,7 @@ public class AppWindowManager {
             currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
             currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
             contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
-            currentViewInfoInstance = contentViewInfoInstance;
+            currentLayoutName = contentViewName;
             Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
                     + "currentView " + currentView + "set tag " + contentViewInfoInstance.getClass().getName());
         }
@@ -75,5 +73,22 @@ public class AppWindowManager {
         pw.setBackgroundDrawable(new BitmapDrawable());
         Rect anchorLocation = DialogUtils.locateView(anchor);
         pw.showAtLocation(anchor, Gravity.NO_GRAVITY, anchorLocation.right, anchorLocation.top);
+    }
+
+
+    public void onSaveInstanceState(Bundle outState) {
+        pw.dismiss(); //to avoid leakWindow crash
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "");
+        outState.putString(mContext.getResources().getString(
+                R.string.current_layout_name), currentLayoutName);
+    }
+
+    public void onRestaureInstanceState(Bundle savedInstanceState) {
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "");
+        if (savedInstanceState != null) {
+            currentLayoutName = savedInstanceState.getString(mContext.getResources().getString(
+                    R.string.current_layout_name));
+            openLayout(new View(mContext), currentLayoutName);
+        }
     }
 }

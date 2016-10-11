@@ -2,4 +2,5 @@
     <string name="app_name">SubMenuApp</string>
     <string name="share">share</string>
     <string name="imported">import</string>
+    <string name="current_layout_name">current_layout_name</string>
 </resources>

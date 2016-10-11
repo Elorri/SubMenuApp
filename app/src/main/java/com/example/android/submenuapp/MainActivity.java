@@ -13,4 +13,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
     }
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        MainFragment mainFragment=(MainFragment) getSupportFragmentManager().findFragmentById(R.id
+                .main_fragment);
+        mainFragment.onAttachedToWindow();
+
+    }
 }
