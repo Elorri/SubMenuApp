@@ -5,9 +5,10 @@
     android:layout_height="match_parent">
     <fragment
         android:id="@+id/fragment_a_id"
+        android:tag="@string/fragment_a_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.example.android.submenuapp.views.PopupFragmentA"
+        android:name="com.example.android.submenuapp.views.FragmentA"
         tools:layout="@layout/fragment_a" />
 
 </LinearLayout>

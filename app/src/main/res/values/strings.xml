@@ -3,4 +3,7 @@
     <string name="share">share</string>
     <string name="imported">import</string>
     <string name="current_layout_name">current_layout_name</string>
+    <string name="fragment_a_tag">fragment_a_tag</string>
+    <string name="fragment_c_tag">fragment_c_tag</string>
+    <string name="fragment_b_tag">fragment_b_tag</string>
 </resources>

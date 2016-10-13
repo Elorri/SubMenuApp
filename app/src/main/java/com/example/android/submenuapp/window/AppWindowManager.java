@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
 import com.example.android.submenuapp.DialogUtils;
@@ -19,9 +21,11 @@ import java.util.Map;
 public class AppWindowManager {
 
     private final Context mContext;
+    private final FragmentManager fragmentManager;
 
 
-    private PopupWindow pw;
+    private PopupWindow popupWindow;
+    private FrameLayout containerView;
 
     private String currentLayoutName;
 
@@ -32,52 +36,96 @@ public class AppWindowManager {
     Map<String, View> contentViews = new HashMap<>();
 
 
-    public AppWindowManager(Context context) {
+    public AppWindowManager(Context context, FragmentManager fragmentManager) {
         this.mContext = context;
+        this.fragmentManager = fragmentManager;
     }
 
-    public void openLayout(View anchor, String popupLayoutName) {
-        openPopupFragment(anchor, popupLayoutName);
-    }
 
-    public void openPopupFragment(View anchor, String contentViewName) {
-        AppWindowViewInfo contentViewInfoInstance = null;
-        try {
-            contentViewInfoInstance = (AppWindowViewInfo) Class.forName(contentViewName).newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    /**
+     * Open a popup with the layout referred by th contentLayoutName. If the popup window is
+     * already opened and the layout requested is a parent or child layout of the current layout,
+     * the layout requested is displayed in the same popup and a transition is made.
+     * In other cases a new popup is opened.
+     */
+    public void openPopup(View anchor, String contentLayoutName) {
+        AppWindowViewInfo contentViewInfoInstance = createContentViewInfoInstance(contentLayoutName);
+        if (contentViewInfoInstance == null) {
+            return;
         }
+        View currentView;
+        if ((currentLayoutName == null)
+                || (!contentViewInfoInstance.shareSamePopupAs(currentLayoutName))) {
+            currentView = getCurrentView(contentLayoutName, contentViewInfoInstance);
+            openInNewWindow(anchor, currentView);
+            return;
+        }
+        currentView = getCurrentView(contentLayoutName, contentViewInfoInstance);
+        openInSameWindow(currentView);
+    }
 
-        View currentView = contentViews.get(contentViewName);
+    private View getCurrentView(String contentLayoutName, AppWindowViewInfo contentViewInfoInstance) {
+        View currentView = contentViews.get(contentLayoutName);
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
-                + "contentViews.get(contentViewName) " + contentViews.get(contentViewName));
+                + "contentViews.get(contentLayoutName) " + contentViews.get(contentLayoutName));
         if (currentView == null) {
             currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
             currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
             contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
-            currentLayoutName = contentViewName;
+            currentLayoutName = contentLayoutName;
             Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
                     + "currentView " + currentView + "set tag " + contentViewInfoInstance.getClass().getName());
+            String fragmentTag = mContext.getResources().getString(contentViewInfoInstance
+                    .getFragmentTagRes());
+            if (fragmentTag != null) {
+                AppWindowFragment fragment = (AppWindowFragment) fragmentManager.findFragmentByTag(fragmentTag);
+                fragment.setmAppWindowManager(this);
+            }
         }
+        return currentView;
+    }
 
-        pw = new PopupWindow();
-        pw.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        pw.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        pw.setContentView(currentView);
-        pw.setOutsideTouchable(true);
-        pw.setFocusable(true);
-        pw.setBackgroundDrawable(new BitmapDrawable());
+
+    private AppWindowViewInfo createContentViewInfoInstance(String contentViewName) {
+        try {
+            return (AppWindowViewInfo) Class.forName(contentViewName).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void openInSameWindow(View currentView) {
+        Log.e("ff", Thread.currentThread().getStackTrace()[2] + "");
+        containerView.removeAllViews();
+        containerView.addView(currentView);
+    }
+
+    private void openInNewWindow(View anchor, View currentView) {
+        popupWindow = new PopupWindow();
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        containerView = new FrameLayout(mContext);
+        containerView.addView(currentView);
+        popupWindow.setContentView(containerView);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         Rect anchorLocation = DialogUtils.locateView(anchor);
-        pw.showAtLocation(anchor, Gravity.NO_GRAVITY, anchorLocation.right, anchorLocation.top);
+        popupWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, anchorLocation.right, anchorLocation.top);
     }
 
 
     public void onSaveInstanceState(Bundle outState) {
-        pw.dismiss(); //to avoid leakWindow crash
+        if (popupWindow != null) {
+            popupWindow.dismiss(); //to avoid leakWindow crash
+        }
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "");
         outState.putString(mContext.getResources().getString(
                 R.string.current_layout_name), currentLayoutName);
@@ -88,7 +136,7 @@ public class AppWindowManager {
         if (savedInstanceState != null) {
             currentLayoutName = savedInstanceState.getString(mContext.getResources().getString(
                     R.string.current_layout_name));
-            openLayout(new View(mContext), currentLayoutName);
+            openPopup(new View(mContext), currentLayoutName);
         }
     }
 }

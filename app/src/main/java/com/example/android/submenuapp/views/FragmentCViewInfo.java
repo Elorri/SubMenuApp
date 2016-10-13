@@ -6,24 +6,22 @@ import com.example.android.submenuapp.R;
 import com.example.android.submenuapp.window.AppWindowViewInfo;
 
 /**
- * Created by nebo-android2016 on 11/10/16.
+ * Created by Elorri on 13/10/2016.
  */
-public class FragmentBViewInfo implements AppWindowViewInfo {
-
+public class FragmentCViewInfo  implements AppWindowViewInfo {
     @Override
     public int getViewLayout() {
-        return  R.layout.fragment_b_wrapper;
+        return R.layout.fragment_c_wrapper;
     }
     @Override
     public int getFragmentTagRes() {
-        return R.string.fragment_b_tag;
+        return R.string.fragment_c_tag;
     }
+
     @Override
     public boolean shareSamePopupAs(String currentLayoutName) {
         Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+this.getClass().getName());
         Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(this.getClass().getName()));
-        return currentLayoutName.equals(FragmentCViewInfo.class.getName());
+        return currentLayoutName.equals(FragmentBViewInfo.class.getName());
     }
-
-
 }
