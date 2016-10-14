@@ -30,17 +30,17 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_fragment_layout, null);
+        View view = inflater.inflate(R.layout.main_fragment, null);
         view.findViewById(R.id.openPopupA).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAppWindowManager.openPopup(view, FragmentAViewInfo.class.getName());
+                mAppWindowManager.openPopup(view, FragmentAViewInfo.class.getName(), null, null);
             }
         });
         view.findViewById(R.id.openPopupB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAppWindowManager.openPopup(view, FragmentBViewInfo.class.getName());
+                mAppWindowManager.openPopup(view, FragmentBViewInfo.class.getName(), null, null);
             }
         });
         return view;

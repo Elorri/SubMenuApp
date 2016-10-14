@@ -2,8 +2,14 @@
     <string name="app_name">SubMenuApp</string>
     <string name="share">share</string>
     <string name="imported">import</string>
-    <string name="current_layout_name">current_layout_name</string>
     <string name="fragment_a_tag">fragment_a_tag</string>
     <string name="fragment_c_tag">fragment_c_tag</string>
     <string name="fragment_b_tag">fragment_b_tag</string>
+
+    <!--Popup Windows related-->
+    <string name="current_layout_name">current_layout_name</string>
+    <string name="window_manager_bundle">window_manager_bundle</string>
+    <string name="last_window_x_position">last_window_x_position</string>
+    <string name="last_window_y_position">last_window_y_position</string>
+    <string name="is_last_window_shown">is_last_window_shown</string>
 </resources>

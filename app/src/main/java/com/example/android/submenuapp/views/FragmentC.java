@@ -24,7 +24,7 @@ public class FragmentC extends AppWindowFragment {
         view.findViewById(R.id.backToB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAppWindowManager.openPopup(v, FragmentBViewInfo.class.getName());
+                mAppWindowManager.openPopup(v, FragmentBViewInfo.class.getName(), null, null);
             }
         });
         return view;
