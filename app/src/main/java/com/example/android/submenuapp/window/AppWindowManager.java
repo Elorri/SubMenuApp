@@ -57,26 +57,24 @@ public class AppWindowManager {
         if ((currentLayoutName == null)
                 || (!contentViewInfoInstance.shareSamePopupAs(currentLayoutName))) {
             currentView = getCurrentView(contentLayoutName, contentViewInfoInstance);
+            currentLayoutName = contentLayoutName;
             openInNewWindow(anchor, currentView);
             return;
         }
         currentView = getCurrentView(contentLayoutName, contentViewInfoInstance);
+        currentLayoutName = contentLayoutName;
         openInSameWindow(currentView);
     }
 
     private View getCurrentView(String contentLayoutName, AppWindowViewInfo contentViewInfoInstance) {
         View currentView = contentViews.get(contentLayoutName);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
-                + "contentViews.get(contentLayoutName) " + contentViews.get(contentLayoutName));
+        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "contentViews.get(contentLayoutName) " + contentViews.get(contentLayoutName));
         if (currentView == null) {
             currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
             currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
             contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
-            currentLayoutName = contentLayoutName;
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2]
-                    + "currentView " + currentView + "set tag " + contentViewInfoInstance.getClass().getName());
-            String fragmentTag = mContext.getResources().getString(contentViewInfoInstance
-                    .getFragmentTagRes());
+            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "currentView " + currentView + "set tag " + contentViewInfoInstance.getClass().getName());
+            String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
             if (fragmentTag != null) {
                 AppWindowFragment fragment = (AppWindowFragment) fragmentManager.findFragmentByTag(fragmentTag);
                 fragment.setmAppWindowManager(this);

@@ -21,6 +21,12 @@ public class FragmentC extends AppWindowFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_c, null);
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+view);
+        view.findViewById(R.id.backToB).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAppWindowManager.openPopup(v, FragmentBViewInfo.class.getName());
+            }
+        });
         return view;
     }
 
