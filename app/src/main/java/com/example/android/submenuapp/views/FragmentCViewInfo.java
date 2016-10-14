@@ -2,6 +2,7 @@ package com.example.android.submenuapp.views;
 
 import android.util.Log;
 
+import com.example.android.submenuapp.MainFragment;
 import com.example.android.submenuapp.R;
 import com.example.android.submenuapp.window.AppWindowViewInfo;
 
@@ -23,5 +24,10 @@ public class FragmentCViewInfo  implements AppWindowViewInfo {
         Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentBViewInfo.class.getName());
         Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentBViewInfo.class.getName()));
         return currentLayoutName.equals(FragmentBViewInfo.class.getName());
+    }
+
+    @Override
+    public String getListenerClassName() {
+        return MainFragment.class.getName();
     }
 }

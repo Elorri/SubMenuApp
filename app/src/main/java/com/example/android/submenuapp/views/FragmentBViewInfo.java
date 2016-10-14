@@ -25,5 +25,10 @@ public class FragmentBViewInfo implements AppWindowViewInfo {
         return currentLayoutName.equals(FragmentCViewInfo.class.getName());
     }
 
+    @Override
+    public String getListenerClassName() {
+        return null;
+    }
+
 
 }

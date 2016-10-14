@@ -39,6 +39,11 @@ public class AppWindowManager {
     // instantiated contentView and reuse them as needed.
     Map<String, View> contentViews = new HashMap<>();
 
+
+    //To restaure behavior of the app correctly on rotation. App manager need to know all the listeners of the fragments created.
+    Map<String, AppWindowFragment.Callback> fragmentListeners = new HashMap<>();
+
+
     public AppWindowManager(Context context, FragmentManager mFragmentManager) {
         this.mContext = context;
         this.mResources = mContext.getResources();
@@ -47,13 +52,17 @@ public class AppWindowManager {
     }
 
     /**
-     * Open a popup with the layout referred by th contentLayoutName. If the popup window is
+     * Open a popup with the layout referred by the contentLayoutName param. If the popup window is
      * already opened and the layout requested is a parent or child layout of the current layout,
      * the layout requested is displayed in the same popup and a transition is made.
      * In other cases a new popup is opened.
      *
+     * if the layout contains a fragment and this fragment has a listener
+     *   - use addFragmentListener() before openPopup call.
+     *   - override corresponding fragmentViewInfo class getListenerClassName() with listener class name
+     *
      * @param anchor
-     * @param contentLayoutName
+     * @param contentLayoutName should be the name of a class implementing AppWindowViewInfo
      * @param x                 if null will display window on the anchor starting at the top/left point
      * @param y                 if null will display window on the anchor starting at the top/left point
      */
@@ -88,9 +97,14 @@ public class AppWindowManager {
             currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
             contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
             String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
-            if (fragmentTag != null) {
+            if (fragmentTag != null) { //If the view contain a fragment we give him an instance of AppWindowManager in case this fragment needs to open windows
                 AppWindowFragment fragment = (AppWindowFragment) mFragmentManager.findFragmentByTag(fragmentTag);
-                fragment.setmAppWindowManager(this);
+                fragment.setAppWindowManager(this);
+                String listenerClassName = contentViewInfoInstance.getListenerClassName();
+                if (listenerClassName != null) { //If the fragment wants to communicate with other class we set a callback here
+                    AppWindowFragment.Callback callback=fragmentListeners.get(listenerClassName);
+                    fragment.setCallback(callback);
+                }
             }
         }
         return currentView;
@@ -146,8 +160,8 @@ public class AppWindowManager {
             x = viewLocation.left;
             y = viewLocation.top;
         }
-        lastWindowXposition=x;
-        lastWindowYposition=y;
+        lastWindowXposition = x;
+        lastWindowYposition = y;
         popupWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, x - horizontalSpace, y - verticalSpace);
     }
 
@@ -179,4 +193,10 @@ public class AppWindowManager {
             }
         }
     }
+
+    public void addFragmentListener(AppWindowFragment.Callback listener) {
+        fragmentListeners.put(listener.getClass().getName(), listener);
+    }
+
+
 }

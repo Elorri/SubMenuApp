@@ -23,4 +23,9 @@ public class FragmentAViewInfo implements AppWindowViewInfo {
         return false;
     }
 
+    @Override
+    public String getListenerClassName() {
+        return null;
+    }
+
 }

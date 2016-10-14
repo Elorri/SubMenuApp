@@ -6,15 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.submenuapp.views.FragmentAViewInfo;
 import com.example.android.submenuapp.views.FragmentBViewInfo;
+import com.example.android.submenuapp.window.AppWindowFragment;
 import com.example.android.submenuapp.window.AppWindowManager;
 
 /**
  * Created by nebo-android2016 on 10/10/16.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements AppWindowFragment.Callback{
 
 
     private AppWindowManager mAppWindowManager;
@@ -40,7 +42,8 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.openPopupB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAppWindowManager.openPopup(view, FragmentBViewInfo.class.getName(), null, null);
+                mAppWindowManager.addFragmentListener(MainFragment.this);
+                mAppWindowManager.openPopup(view, FragmentBViewInfo.class.getName(), null, null); //Want to open the view described by class FragmentBViewInfo
             }
         });
         return view;
@@ -55,5 +58,10 @@ public class MainFragment extends Fragment {
 
     public void onAttachedToWindow() {
         mAppWindowManager.onRestaureInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void weAreOnFragmentC() {
+        Toast.makeText(getContext(), "Fragment C event catch by MainFragment Youhoo", Toast.LENGTH_SHORT).show();
     }
 }

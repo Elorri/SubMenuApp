@@ -14,6 +14,9 @@ import com.example.android.submenuapp.window.AppWindowFragment;
  * Created by Elorri on 13/10/2016.
  */
 public class FragmentC extends AppWindowFragment {
+
+
+
     private View view;
 
     @Nullable
@@ -24,6 +27,7 @@ public class FragmentC extends AppWindowFragment {
         view.findViewById(R.id.backToB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCallback.weAreOnFragmentC();
                 mAppWindowManager.openPopup(v, FragmentBViewInfo.class.getName(), null, null);
             }
         });
