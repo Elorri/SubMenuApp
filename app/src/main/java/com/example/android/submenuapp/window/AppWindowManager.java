@@ -96,9 +96,10 @@ public class AppWindowManager {
             currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
             currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
             contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
-            String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
-            if (fragmentTag != null) { //If the view contain a fragment we give him an instance of AppWindowManager in case this fragment needs to open windows
-                AppWindowFragment fragment = (AppWindowFragment) mFragmentManager.findFragmentByTag(fragmentTag);
+            //String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
+            int fragmentId=contentViewInfoInstance.getFragmentId();
+            if (fragmentId != 0) { //If the view contain a fragment we give him an instance of AppWindowManager in case this fragment needs to open windows
+                AppWindowFragment fragment = (AppWindowFragment) mFragmentManager.findFragmentById(fragmentId);
                 fragment.setAppWindowManager(this);
                 String listenerClassName = contentViewInfoInstance.getListenerClassName();
                 if (listenerClassName != null) { //If the fragment wants to communicate with other class we set a callback here
@@ -197,6 +198,4 @@ public class AppWindowManager {
     public void addFragmentListener(AppWindowFragment.Callback listener) {
         fragmentListeners.put(listener.getClass().getName(), listener);
     }
-
-
 }

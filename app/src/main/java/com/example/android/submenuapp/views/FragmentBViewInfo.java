@@ -30,5 +30,10 @@ public class FragmentBViewInfo implements AppWindowViewInfo {
         return null;
     }
 
+    @Override
+    public int getFragmentId() {
+        return R.id.fragment_b_id;
+    }
+
 
 }

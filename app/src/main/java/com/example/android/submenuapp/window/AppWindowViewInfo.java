@@ -7,9 +7,11 @@ public interface AppWindowViewInfo {
 
     int getViewLayout();
 
-    int getFragmentTagRes();
-
     boolean shareSamePopupAs(String currentLayoutName);
 
     String getListenerClassName();
+
+    int getFragmentId();
+
+    int getFragmentTagRes();
 }

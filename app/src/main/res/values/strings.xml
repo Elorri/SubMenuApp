@@ -3,7 +3,8 @@
     <string name="share">share</string>
     <string name="imported">import</string>
     <string name="fragment_a_tag">fragment_a_tag</string>
-    <string name="fragment_c_tag">fragment_c_tag</string>
+    <string name="fragment_c_tag1">fragment_c_tag1</string>
+    <string name="fragment_c_tag2">fragment_c_tag2</string>
     <string name="fragment_b_tag">fragment_b_tag</string>
 
     <!--Popup Windows related-->

@@ -5,7 +5,7 @@
               android:layout_height="match_parent">
     <fragment
         android:id="@+id/fragment_c_id"
-        android:tag="@string/fragment_c_tag"
+        android:tag="@string/fragment_c_tag1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:name="com.example.android.submenuapp.views.FragmentC"

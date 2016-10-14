@@ -16,7 +16,7 @@ public class FragmentCViewInfo  implements AppWindowViewInfo {
     }
     @Override
     public int getFragmentTagRes() {
-        return R.string.fragment_c_tag;
+        return R.string.fragment_c_tag1;
     }
 
     @Override
@@ -29,5 +29,10 @@ public class FragmentCViewInfo  implements AppWindowViewInfo {
     @Override
     public String getListenerClassName() {
         return MainFragment.class.getName();
+    }
+
+    @Override
+    public int getFragmentId() {
+        return R.id.fragment_c_id;
     }
 }
