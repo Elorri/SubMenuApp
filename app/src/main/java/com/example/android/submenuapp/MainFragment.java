@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.android.submenuapp.views.FragmentAViewInfo;
 import com.example.android.submenuapp.views.FragmentBViewInfo;
+import com.example.android.submenuapp.views.FragmentCTag2ViewInfo;
 import com.example.android.submenuapp.window.AppWindowFragment;
 import com.example.android.submenuapp.window.AppWindowManager;
 
@@ -44,6 +45,13 @@ public class MainFragment extends Fragment implements AppWindowFragment.Callback
             public void onClick(View view) {
                 mAppWindowManager.addFragmentListener(MainFragment.this);
                 mAppWindowManager.openPopup(view, FragmentBViewInfo.class.getName(), null, null); //Want to open the view described by class FragmentBViewInfo
+            }
+        });
+        view.findViewById(R.id.openPopupC).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAppWindowManager.addFragmentListener(MainFragment.this);
+                mAppWindowManager.openPopup(view, FragmentCTag2ViewInfo.class.getName(), null, null);
             }
         });
         return view;

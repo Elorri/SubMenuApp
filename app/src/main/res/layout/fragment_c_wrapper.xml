@@ -9,6 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:name="com.example.android.submenuapp.views.FragmentC"
-        tools:layout="@layout/fragment_c" />
+        tools:layout="@layout/fragment_c_layout2" />
 
 </LinearLayout>

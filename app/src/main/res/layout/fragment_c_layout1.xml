@@ -9,12 +9,12 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:text="fragment C"/>
+        android:text="FragC_1"/>
 
     <Button
         android:id="@+id/backToB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Back to B"/>
+        android:text="@string/back_to_b"/>
 </LinearLayout>

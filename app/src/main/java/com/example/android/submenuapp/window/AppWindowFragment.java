@@ -1,13 +1,12 @@
 package com.example.android.submenuapp.window;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-/**
- * Created by Elorri on 13/10/2016.
- */
-public class AppWindowFragment extends Fragment {
+public abstract class AppWindowFragment extends Fragment {
 
     protected Callback mCallback;
+    protected Bundle mData;
 
     //Use by MainFragment
     public interface Callback {
@@ -23,4 +22,6 @@ public class AppWindowFragment extends Fragment {
     public void setCallback(Callback callback) {
         this.mCallback = callback;
     }
+
+    public abstract void setData(Bundle data) ;
 }

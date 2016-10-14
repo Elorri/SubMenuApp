@@ -24,12 +24,15 @@ public class FragmentB extends AppWindowFragment {
         view.findViewById(R.id.goToC).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAppWindowManager.openPopup(v, FragmentCViewInfo.class.getName(), null, null);
+                mAppWindowManager.openPopup(v, FragmentCTag1ViewInfo.class.getName(), null, null);
             }
         });
         return view;
     }
 
 
+    @Override
+    public void setData(Bundle data) {
 
+    }
 }

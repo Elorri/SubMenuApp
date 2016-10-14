@@ -1,5 +1,8 @@
 package com.example.android.submenuapp.views;
 
+import android.content.Context;
+import android.os.Bundle;
+
 import com.example.android.submenuapp.R;
 import com.example.android.submenuapp.window.AppWindowViewInfo;
 
@@ -11,11 +14,6 @@ public class FragmentAViewInfo implements AppWindowViewInfo {
     @Override
     public int getViewLayout() {
         return R.layout.fragment_a_wrapper;
-    }
-
-    @Override
-    public int getFragmentTagRes() {
-        return R.string.fragment_a_tag;
     }
 
     @Override
@@ -31,6 +29,20 @@ public class FragmentAViewInfo implements AppWindowViewInfo {
     @Override
     public int getFragmentId() {
         return R.id.fragment_a_id;
+    }
+
+    @Override
+    public Bundle getData() {
+        return null;
+    }
+
+    @Override
+    public void setContext(Context context) {
+     }
+
+    @Override
+    public String getViewInfoClassName() {
+        return FragmentAViewInfo.class.getName();
     }
 
 }

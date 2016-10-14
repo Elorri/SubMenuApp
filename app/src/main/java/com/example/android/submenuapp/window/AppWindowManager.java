@@ -91,21 +91,27 @@ public class AppWindowManager {
     }
 
     private View getCurrentView(String contentLayoutName, AppWindowViewInfo contentViewInfoInstance) {
-        View currentView = contentViews.get(contentLayoutName);
+        //We can't put contentLayoutName directly here because in some case we want to give the name of the parent class.
+        //That's why we use the method getViewInfoClassName
+        View currentView = contentViews.get(contentViewInfoInstance.getViewInfoClassName());
         if (currentView == null) {
             currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
-            currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName());
-            contentViews.put(contentViewInfoInstance.getClass().getName(), currentView);
-            //String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
-            int fragmentId=contentViewInfoInstance.getFragmentId();
-            if (fragmentId != 0) { //If the view contain a fragment we give him an instance of AppWindowManager in case this fragment needs to open windows
-                AppWindowFragment fragment = (AppWindowFragment) mFragmentManager.findFragmentById(fragmentId);
-                fragment.setAppWindowManager(this);
-                String listenerClassName = contentViewInfoInstance.getListenerClassName();
-                if (listenerClassName != null) { //If the fragment wants to communicate with other class we set a callback here
-                    AppWindowFragment.Callback callback=fragmentListeners.get(listenerClassName);
-                    fragment.setCallback(callback);
-                }
+            currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName()); //is this line useful ?
+            contentViews.put(contentViewInfoInstance.getViewInfoClassName(), currentView);
+        }
+        //String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
+        int fragmentId=contentViewInfoInstance.getFragmentId();
+        if (fragmentId != 0) { //If the view contain a fragment we give him an instance of AppWindowManager in case this fragment needs to open windows
+            AppWindowFragment fragment = (AppWindowFragment) mFragmentManager.findFragmentById(fragmentId);
+            fragment.setAppWindowManager(this);
+            String listenerClassName = contentViewInfoInstance.getListenerClassName();
+            if (listenerClassName != null) { //If the fragment wants to communicate with other class we set a callback here
+                AppWindowFragment.Callback callback=fragmentListeners.get(listenerClassName);
+                fragment.setCallback(callback);
+            }
+            Bundle data = contentViewInfoInstance.getData();
+            if (data != null) { //If the fragment need other data
+                fragment.setData(data);
             }
         }
         return currentView;
@@ -114,7 +120,9 @@ public class AppWindowManager {
     private AppWindowViewInfo createContentViewInfoInstance(String contentViewName) {
         Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "contentViewName " + contentViewName);
         try {
-            return (AppWindowViewInfo) Class.forName(contentViewName).newInstance();
+            AppWindowViewInfo contentViewInfoInstance=(AppWindowViewInfo) Class.forName(contentViewName).newInstance();
+            contentViewInfoInstance.setContext(mContext); //instance need context to access ressources
+            return contentViewInfoInstance;
         } catch (InstantiationException e) {
             e.printStackTrace();
             return null;

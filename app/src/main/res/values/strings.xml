@@ -13,4 +13,9 @@
     <string name="last_window_x_position">last_window_x_position</string>
     <string name="last_window_y_position">last_window_y_position</string>
     <string name="is_last_window_shown">is_last_window_shown</string>
+    <string name="fragment_c_layout">fragment_c_layout</string>
+    <string name="fragment_c_layout_1_default">fragment C layout 1 (default)</string>
+    <string name="fragment_c_layout_2">fragment C layout 2</string>
+    <string name="back_to_b">Back to B</string>
+    <string name="fragment_c_view_info">FragmentCViewInfo</string>
 </resources>
