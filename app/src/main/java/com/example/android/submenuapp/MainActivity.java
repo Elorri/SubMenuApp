@@ -2,6 +2,7 @@ package com.example.android.submenuapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,17 +14,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private AppWindowManager mAppWindowManager;
+    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        mAppWindowManager = new AppWindowManager(getApplicationContext(), getSupportFragmentManager());
+        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+        mAppWindowManager = new AppWindowManager(mainFragment.getContext(), getSupportFragmentManager());
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "");
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -31,24 +37,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action) {
-            View anchor=new View(getApplicationContext());
+            View anchor = new View(getApplicationContext());
             item.setActionView(anchor);
-            openActionMenu(anchor);
+            openActionMenu(item.getActionView());
             return true;
         }
         return false;
     }
 
     private void openActionMenu(View anchor) {
-        mAppWindowManager.openPopup(anchor, FragmentBViewInfo.class.getName(), null, null); //Want to open the view described by class FragmentBViewInfo
+            mAppWindowManager.openPopup(anchor, FragmentBViewInfo.class.getName(), null, null);
     }
 
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id
-                .main_fragment);
         mainFragment.onAttachedToWindow(mAppWindowManager);
-
     }
 }

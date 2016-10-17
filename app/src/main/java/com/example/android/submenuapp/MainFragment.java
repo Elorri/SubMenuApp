@@ -34,6 +34,7 @@ public class MainFragment extends Fragment implements FragmentC.Callback{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"");
         View view = inflater.inflate(R.layout.main_fragment, null);
         view.findViewById(R.id.openPopupA).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +60,7 @@ public class MainFragment extends Fragment implements FragmentC.Callback{
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"");
         super.onSaveInstanceState(outState);
         mAppWindowManager.onSaveInstanceState(outState);
     }
