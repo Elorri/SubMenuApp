@@ -67,9 +67,9 @@ public class AppWindowManager {
      * @param y                 if null will display window on the anchor starting at the top/left point
      */
     public void openPopup(View anchor, String contentLayoutName, Integer x, Integer y) {
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "popupWindow " + popupWindow);
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "popupWindow " + popupWindow);
         if (popupWindow != null)
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "popupWindow isShowing " + popupWindow.isShowing());
+            Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "popupWindow isShowing " + popupWindow.isShowing());
 
         AppWindowViewInfo contentViewInfoInstance = createContentViewInfoInstance(contentLayoutName);
         if (contentViewInfoInstance == null) {
@@ -78,13 +78,13 @@ public class AppWindowManager {
         View currentView;
         if ((currentLayoutName == null)
                 || (!contentViewInfoInstance.shareSamePopupAs(currentLayoutName))) {
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "will openInNewWindow");
+            Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "will openInNewWindow");
             currentView = getCurrentView(contentLayoutName, contentViewInfoInstance);
             currentLayoutName = contentLayoutName;
             openInNewWindow(anchor, currentView, x, y);
             return;
         }
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "will openInSameWindow");
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "will openInSameWindow");
         currentView = getCurrentView(contentLayoutName, contentViewInfoInstance);
         currentLayoutName = contentLayoutName;
         openInSameWindow(anchor, currentView, x, y);
@@ -96,7 +96,6 @@ public class AppWindowManager {
         View currentView = contentViews.get(contentViewInfoInstance.getViewInfoClassName());
         if (currentView == null) {
             currentView = View.inflate(mContext, contentViewInfoInstance.getViewLayout(), null);
-            currentView.setTag(R.id.window_id, contentViewInfoInstance.getClass().getName()); //is this line useful ?
             contentViews.put(contentViewInfoInstance.getViewInfoClassName(), currentView);
         }
         //String fragmentTag = mContext.getResources().getString(contentViewInfoInstance.getFragmentTagRes());
@@ -118,7 +117,7 @@ public class AppWindowManager {
     }
 
     private AppWindowViewInfo createContentViewInfoInstance(String contentViewName) {
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "contentViewName " + contentViewName);
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "contentViewName " + contentViewName);
         try {
             AppWindowViewInfo contentViewInfoInstance=(AppWindowViewInfo) Class.forName(contentViewName).newInstance();
             contentViewInfoInstance.setContext(mContext); //instance need context to access ressources
@@ -157,13 +156,13 @@ public class AppWindowManager {
     }
 
     private void show(PopupWindow popupWindow, View anchor, Integer x, Integer y) {
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "popupWindow " + popupWindow + " anchor " + anchor + "x " + x + " y " + y);
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "popupWindow " + popupWindow + " anchor " + anchor + "x " + x + " y " + y);
         //For some reason default Cardview add space and display the second dialog windows in cascade. We don't want that => we remove that.
         int horizontalSpace = (int) mResources.getDimension(R.dimen.dialog_horizontal_space);
         int verticalSpace = (int) mResources.getDimension(R.dimen.dialog_vertical_space);
 
         if (x == null && y == null) {
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "x y null");
+            Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "x y null");
             //Show the popup over the anchor
             Rect viewLocation = DialogUtils.locateView(anchor);
             x = viewLocation.left;
@@ -180,7 +179,7 @@ public class AppWindowManager {
             windowManagerBundle.putString(mContext.getResources().getString(R.string.current_layout_name), currentLayoutName);
             windowManagerBundle.putInt(mContext.getResources().getString(R.string.last_window_x_position), lastWindowXposition);
             windowManagerBundle.putInt(mContext.getResources().getString(R.string.last_window_y_position), lastWindowYposition);
-            Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "isShown " + popupWindow.isShowing());
+            Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "isShown " + popupWindow.isShowing());
             windowManagerBundle.putBoolean(mContext.getResources().getString(R.string.is_last_window_shown), popupWindow.isShowing());
             popupWindow.dismiss(); //to avoid leakWindow crash. (Note need to be called after popupWindow.isShowing to remember correctly if the window was opened)
             outState.putBundle(mContext.getResources().getString(R.string.window_manager_bundle), windowManagerBundle);
@@ -195,7 +194,7 @@ public class AppWindowManager {
                 lastWindowXposition = windowManagerBundle.getInt(mContext.getResources().getString(R.string.last_window_x_position));
                 lastWindowYposition = windowManagerBundle.getInt(mContext.getResources().getString(R.string.last_window_y_position));
                 boolean isShown = windowManagerBundle.getBoolean(mContext.getResources().getString(R.string.is_last_window_shown));
-                Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "isShown " + isShown);
+                Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "isShown " + isShown);
                 if (isShown) {
                     openPopup(new View(mContext), currentLayoutName, lastWindowXposition, lastWindowYposition);
                 }

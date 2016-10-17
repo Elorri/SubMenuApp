@@ -1,6 +1,7 @@
 package com.example.android.submenuapp.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,7 +14,12 @@ import com.example.android.submenuapp.window.AppWindowViewInfo;
  */
 public class FragmentCTag1ViewInfo implements AppWindowViewInfo {
 
-    private Context mContext;
+    private Resources mResources;
+
+    @Override
+    public void setContext(Context context) {
+        mResources=context.getResources();
+    }
 
     @Override
     public int getViewLayout() {
@@ -22,8 +28,8 @@ public class FragmentCTag1ViewInfo implements AppWindowViewInfo {
 
     @Override
     public boolean shareSamePopupAs(String currentLayoutName) {
-        Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentBViewInfo.class.getName());
-        Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentBViewInfo.class.getName()));
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentBViewInfo.class.getName());
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentBViewInfo.class.getName()));
         return currentLayoutName.equals(FragmentBViewInfo.class.getName());
     }
 
@@ -39,18 +45,16 @@ public class FragmentCTag1ViewInfo implements AppWindowViewInfo {
 
     @Override
     public Bundle getData() {
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"");
-        return null;
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"");
+        Bundle data=new Bundle();
+        data.putInt(mResources.getString(R.string.fragment_c_layout), R.layout.fragment_c_layout1);
+        return data;
     }
 
-    @Override
-    public void setContext(Context context) {
-mContext=context;
-    }
 
     @Override
     public String getViewInfoClassName() {
         //We gives the same name for FragmentCTag1ViewInfo and FragmentCTag2ViewInfo because they share the same fragment
-        return mContext.getResources().getString(R.string.fragment_c_view_info);
+        return mResources.getString(R.string.fragment_c_view_info);
     }
 }

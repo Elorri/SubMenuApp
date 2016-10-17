@@ -19,9 +19,9 @@ public class FragmentBViewInfo implements AppWindowViewInfo {
 
     @Override
     public boolean shareSamePopupAs(String currentLayoutName) {
-        Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentCTag1ViewInfo.class.getName());
-        Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentCTag1ViewInfo.class.getName()));
-        return currentLayoutName.equals(FragmentCTag1ViewInfo.class.getName());
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentCTag1ViewInfo.class.getName());
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentCTag1ViewInfo.class.getName()));
+        return currentLayoutName.equals(FragmentCTag1ViewInfo.class.getName())||currentLayoutName.equals(FragmentCTag2ViewInfo.class.getName());
     }
 
     @Override

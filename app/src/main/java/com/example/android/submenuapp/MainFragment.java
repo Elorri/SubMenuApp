@@ -10,14 +10,14 @@ import android.widget.Toast;
 
 import com.example.android.submenuapp.views.FragmentAViewInfo;
 import com.example.android.submenuapp.views.FragmentBViewInfo;
+import com.example.android.submenuapp.views.FragmentC;
 import com.example.android.submenuapp.views.FragmentCTag2ViewInfo;
-import com.example.android.submenuapp.window.AppWindowFragment;
 import com.example.android.submenuapp.window.AppWindowManager;
 
 /**
  * Created by nebo-android2016 on 10/10/16.
  */
-public class MainFragment extends Fragment implements AppWindowFragment.Callback{
+public class MainFragment extends Fragment implements FragmentC.Callback{
 
 
     private AppWindowManager mAppWindowManager;
@@ -28,6 +28,7 @@ public class MainFragment extends Fragment implements AppWindowFragment.Callback
         super.onCreate(savedInstanceState);
         mAppWindowManager = new AppWindowManager(getContext(), getFragmentManager());
         this.savedInstanceState = savedInstanceState;
+        mAppWindowManager.addFragmentListener(MainFragment.this);
     }
 
     @Nullable
@@ -43,14 +44,12 @@ public class MainFragment extends Fragment implements AppWindowFragment.Callback
         view.findViewById(R.id.openPopupB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAppWindowManager.addFragmentListener(MainFragment.this);
                 mAppWindowManager.openPopup(view, FragmentBViewInfo.class.getName(), null, null); //Want to open the view described by class FragmentBViewInfo
             }
         });
         view.findViewById(R.id.openPopupC).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAppWindowManager.addFragmentListener(MainFragment.this);
                 mAppWindowManager.openPopup(view, FragmentCTag2ViewInfo.class.getName(), null, null);
             }
         });

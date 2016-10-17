@@ -12,11 +12,30 @@ import android.widget.LinearLayout;
 
 import com.example.android.submenuapp.R;
 import com.example.android.submenuapp.window.AppWindowFragment;
+import com.example.android.submenuapp.window.AppWindowManager;
 
 /**
  * Created by Elorri on 13/10/2016.
  */
 public class FragmentC extends AppWindowFragment {
+
+    private Callback mCallback;
+    private AppWindowManager mAppWindowManager;
+
+
+    //Use by MainFragment
+    public interface Callback extends AppWindowFragment.Callback{
+        void weAreOnFragmentC();
+    }
+
+    public void setAppWindowManager(AppWindowManager appWindowManager) {
+        this.mAppWindowManager = appWindowManager;
+    }
+
+    @Override
+    public void setCallback(AppWindowFragment.Callback callback) {
+        this.mCallback = (Callback) callback;
+    }
 
 
     private LinearLayout view;
@@ -34,8 +53,8 @@ public class FragmentC extends AppWindowFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = (LinearLayout) inflater.inflate(R.layout.fragment_c_layout1, null);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " + view);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "tag " + this.getTag());
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "view " + view);
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "tag " + this.getTag());
         setUpView(view);
         return view;
     }
@@ -44,7 +63,7 @@ public class FragmentC extends AppWindowFragment {
         view.findViewById(R.id.backToB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "view " + view);
+                Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "view " + view);
                 mCallback.weAreOnFragmentC();
                 mAppWindowManager.openPopup(v, FragmentBViewInfo.class.getName(), null, null);
             }
@@ -55,10 +74,8 @@ public class FragmentC extends AppWindowFragment {
     @Override
     public void setData(Bundle data) {
         int layoutRes = data.getInt(mResource.getString(R.string.fragment_c_layout));
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2] + "" + layoutRes + " " + R.layout.fragment_c_layout1 + " " + R.layout.fragment_c_layout2);
-        if (layoutRes != R.layout.fragment_c_layout1) {
-            view.removeAllViews();
-            view.addView(setUpView(View.inflate(getContext(), layoutRes, null)));
-        }
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2] + "" + layoutRes + " " + R.layout.fragment_c_layout1 + " " + R.layout.fragment_c_layout2);
+        view.removeAllViews();
+        view.addView(setUpView(View.inflate(getContext(), layoutRes, null)));
     }
 }

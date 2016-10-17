@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.android.submenuapp.R;
 import com.example.android.submenuapp.window.AppWindowFragment;
+import com.example.android.submenuapp.window.AppWindowManager;
 
 public class FragmentA extends AppWindowFragment {
     private View view;
@@ -18,8 +19,18 @@ public class FragmentA extends AppWindowFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_a, null);
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"view "+view);
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"view "+view);
         return view;
+    }
+
+    @Override
+    public void setAppWindowManager(AppWindowManager appWindowManager) {
+
+    }
+
+    @Override
+    public void setCallback(Callback callback) {
+
     }
 
     @Override

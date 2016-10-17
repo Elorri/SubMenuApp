@@ -26,8 +26,8 @@ public class FragmentCTag2ViewInfo implements AppWindowViewInfo {
 
     @Override
     public boolean shareSamePopupAs(String currentLayoutName) {
-        Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentBViewInfo.class.getName());
-        Log.e("ff", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentBViewInfo.class.getName()));
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName+" "+FragmentBViewInfo.class.getName());
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+""+currentLayoutName.equals(FragmentBViewInfo.class.getName()));
         return currentLayoutName.equals(FragmentBViewInfo.class.getName());
     }
 
@@ -43,7 +43,7 @@ public class FragmentCTag2ViewInfo implements AppWindowViewInfo {
 
     @Override
     public Bundle getData() {
-        Log.e("Nebo", Thread.currentThread().getStackTrace()[2]+"");
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"");
         Bundle data=new Bundle();
         data.putInt(mResources.getString(R.string.fragment_c_layout), R.layout.fragment_c_layout2);
         return data;

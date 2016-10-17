@@ -5,23 +5,11 @@ import android.support.v4.app.Fragment;
 
 public abstract class AppWindowFragment extends Fragment {
 
-    protected Callback mCallback;
-    protected Bundle mData;
+    public interface Callback {}
 
-    //Use by MainFragment
-    public interface Callback {
-        void weAreOnFragmentC();
-    }
+    public abstract void setAppWindowManager(AppWindowManager appWindowManager) ;
 
-    protected AppWindowManager mAppWindowManager;
-
-    public void setAppWindowManager(AppWindowManager appWindowManager) {
-        this.mAppWindowManager = appWindowManager;
-    }
-
-    public void setCallback(Callback callback) {
-        this.mCallback = callback;
-    }
+    public abstract void setCallback(Callback callback);
 
     public abstract void setData(Bundle data) ;
 }
