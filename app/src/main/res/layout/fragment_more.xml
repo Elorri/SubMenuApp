@@ -36,10 +36,10 @@
             android:background="@android:color/darker_gray"/>
 
         <Button
-            android:id="@+id/action_sketch"
+            android:id="@+id/help"
             style="@style/menuButtonStyle"
             android:drawableLeft="@mipmap/ic_launcher"
-            android:text="Action Picture"/>
+            android:text="Help"/>
 
         <Button
             android:id="@+id/action_diagram"

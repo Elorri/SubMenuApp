@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.android.submenuapp.views.FragmentBViewInfo;
+import com.example.android.submenuapp.views.FragmentMoreViewInfo;
 import com.example.android.submenuapp.window.AppWindowManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openActionMenu(View anchor) {
-            mAppWindowManager.openPopup(anchor, FragmentBViewInfo.class.getName(), null, null);
+            mAppWindowManager.openPopup(anchor, FragmentMoreViewInfo.class.getName(), null, null);
     }
 
     @Override

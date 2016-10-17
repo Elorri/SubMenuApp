@@ -14,24 +14,24 @@ import com.example.android.submenuapp.window.AppWindowManager;
 /**
  * Created by Elorri on 17/10/2016.
  */
-public class FragmentMore extends AppWindowFragment {
+public class FragmentHelp extends AppWindowFragment {
     private View view;
-
     private AppWindowManager mAppWindowManager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_more, null);
-        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"view "+view);
-        view.findViewById(R.id.help).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAppWindowManager.openPopup(v, FragmentHelpViewInfo.class.getName(), null, null);
-            }
-        });
-        return view;
-    }
+    view=inflater.inflate(R.layout.fragment_help, null);
+    Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"view "+view);
+    view.findViewById(R.id.goToMore).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mAppWindowManager.openPopup(v, FragmentMoreViewInfo.class.getName(), null, null);
+        }
+    });
+    return view;
+}
+
 
     @Override
     public void setAppWindowManager(AppWindowManager appWindowManager) {
@@ -47,4 +47,5 @@ public class FragmentMore extends AppWindowFragment {
     public void setData(Bundle data) {
 
     }
+
 }

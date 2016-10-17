@@ -9,15 +9,15 @@ import com.example.android.submenuapp.window.AppWindowViewInfo;
 /**
  * Created by Elorri on 17/10/2016.
  */
-public class FragmentDViewInfo implements AppWindowViewInfo {
+public class FragmentMoreViewInfo implements AppWindowViewInfo {
     @Override
     public int getViewLayout() {
-        return R.layout.fragment_a_wrapper;
+        return R.layout.fragment_more_wrapper;
     }
 
     @Override
     public boolean shareSamePopupAs(String currentLayoutName) {
-        return false;
+        return currentLayoutName.equals(FragmentHelpViewInfo.class.getName());
     }
 
     @Override
@@ -27,7 +27,7 @@ public class FragmentDViewInfo implements AppWindowViewInfo {
 
     @Override
     public int getFragmentId() {
-        return R.id.fragment_a_id;
+        return R.id.fragment_more_id;
     }
 
     @Override
