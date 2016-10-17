@@ -18,4 +18,5 @@
     <string name="fragment_c_layout_2">fragment C layout 2</string>
     <string name="back_to_b">Back to B</string>
     <string name="fragment_c_view_info">FragmentCViewInfo</string>
+    <string name="openmenuaction">openMenuAction</string>
 </resources>
