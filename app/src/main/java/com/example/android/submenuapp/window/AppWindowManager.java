@@ -6,6 +6,10 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.transition.AutoTransition;
+import android.transition.Scene;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -135,8 +139,9 @@ public class AppWindowManager {
     }
 
     private void openInSameWindow(View anchor, View currentView, Integer x, Integer y) {
-        containerView.removeAllViews();
-        containerView.addView(currentView);
+//        containerView.removeAllViews();
+//        containerView.addView(currentView);
+        setWindowView(containerView, currentView);
         if (!popupWindow.isShowing()) {
             show(popupWindow, anchor, x, y);
         }
@@ -146,13 +151,24 @@ public class AppWindowManager {
         popupWindow = new PopupWindow();
         popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        containerView.removeAllViews();
-        containerView.addView(currentView);
+//        containerView.removeAllViews();
+//        containerView.addView(currentView);
         popupWindow.setContentView(containerView);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        setWindowView(containerView, currentView);
         show(popupWindow, anchor, x, y);
+    }
+
+    private void setWindowView(FrameLayout container, View finalView) {
+        Scene finalScene = new Scene(container, finalView);
+        finalScene.enter(); //Calling this will make final scene text appearing on
+        // before container has finished resizing.
+        final Transition t = new AutoTransition();
+        t.setDuration(500);
+        TransitionManager.go(finalScene, t);//This will make the container.addView no
+        // need to do it ourselves
     }
 
     private void show(PopupWindow popupWindow, View anchor, Integer x, Integer y) {
