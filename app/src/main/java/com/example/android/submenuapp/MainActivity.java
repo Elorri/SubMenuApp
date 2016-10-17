@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onAttachedToWindow();
         MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id
                 .main_fragment);
-        mainFragment.onAttachedToWindow();
+        mainFragment.onAttachedToWindow(mAppWindowManager);
 
     }
 }

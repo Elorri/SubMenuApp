@@ -3,6 +3,7 @@ package com.example.android.submenuapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,8 @@ public class MainFragment extends Fragment implements FragmentC.Callback{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAppWindowManager = new AppWindowManager(getContext(), getFragmentManager());
+        //mAppWindowManager = new AppWindowManager(getContext(), getFragmentManager());
         this.savedInstanceState = savedInstanceState;
-        mAppWindowManager.addFragmentListener(MainFragment.this);
     }
 
     @Nullable
@@ -63,7 +63,10 @@ public class MainFragment extends Fragment implements FragmentC.Callback{
         mAppWindowManager.onSaveInstanceState(outState);
     }
 
-    public void onAttachedToWindow() {
+    public void onAttachedToWindow(AppWindowManager appWindowManager) {
+        Log.e("Sub", Thread.currentThread().getStackTrace()[2]+"");
+        mAppWindowManager=appWindowManager;
+        mAppWindowManager.addFragmentListener(MainFragment.this);
         mAppWindowManager.onRestaureInstanceState(savedInstanceState);
     }
 
